@@ -46,13 +46,13 @@
         
     ],
     "dependencies":{
-        
+        "cbmessagebox":"1.0.0"
     },
     "devDependencies":{
         
     },
     "installPaths":{
-        
+        "cbmessagebox":"modules/cbmessagebox"
     },
     "ignore":[
         "**/.*",
