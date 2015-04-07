@@ -101,40 +101,40 @@ component singleton {
 		var arrUnmatched2 = [];
 
 		//Array from first set
-		for(transaction in arguments.objFile1.getUnmatched()){
+		for(var transaction in arguments.objFile1.getUnmatched()){
 
 			//for each match in the set, build a row for the array
-			for (match in transaction.getBestMatch()){
-				arrayAppend(local.arrUnmatched1, buildUnmatchedRow(transaction, match));
+			for (var match in transaction.getBestMatch()){
+				arrayAppend(local.arrUnmatched1, buildUnmatchedRow(local.transaction, local.match));
 			}
 		}
 
 		//Array from second set
-		for (transaction in arguments.objFile2.getUnmatched()){
+		for (var transaction in arguments.objFile2.getUnmatched()){
 
 			//for each match in the set, build a row for the array
-			for (match in transaction.getBestMatch()){
-				arrayAppend(local.arrUnmatched2, buildUnmatchedRow(match, transaction));
+			for (var match in transaction.getBestMatch()){
+				arrayAppend(local.arrUnmatched2, buildUnmatchedRow(local.match, local.transaction));
 			}
 		}
 
 		//Remove duplication of rows from the two sets
-		arrUnmatched2 = stripDuplicates(arrUnmatched1, arrUnmatched2);
+		arrUnmatched2 = stripDuplicates(local.arrUnmatched1, local.arrUnmatched2);
 
 		//Merge the two arrays to create the response
-		arrayAppend(arrUnmatched1, arrUnmatched2, true);
+		arrayAppend(local.arrUnmatched1, local.arrUnmatched2, true);
 
-		return arrUnmatched1;
+		return local.arrUnmatched1;
 	}
 
 	private function stripDuplicates(required array arrTransactionToCompare, required array arrTransactionToClean){
 
 		//Deletes the first match in the second set for each transaction - so any duplicate transactions are still shown in the second set
-		for (var transaction in arrTransactionToCompare){
-			arrayDelete(arrTransactionToClean, transaction);
+		for (var transaction in arguments.arrTransactionToCompare){
+			arrayDelete(arguments.arrTransactionToClean, local.transaction);
 		}
 
-		return arrTransactionToClean;
+		return arguments.arrTransactionToClean;
 	}
 
 	private function buildUnmatchedRow(required transaction transaction1, required transaction transaction2){
@@ -148,6 +148,6 @@ component singleton {
 			amount2 = arguments.transaction2.getTransactionAmount()
 		};
 
-		return stuUnmatched;
+		return local.stuUnmatched;
 	}
 }

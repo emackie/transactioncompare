@@ -55,9 +55,9 @@ component accessors="true" {
 		var fileTransactions = fileOpen(getFullPath());
 		var arrTransactions = buildTransactionArray(fileTransactions);
 
-		fileClose(fileTransactions);
+		fileClose(local.fileTransactions);
 
-		return arrTransactions;
+		return local.arrTransactions;
 	}
 
 	private function buildTransactionArray(required any fileTransactions){

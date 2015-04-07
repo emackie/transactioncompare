@@ -11,14 +11,14 @@ component singleton {
 		var destination = expandPath("../files");
 
 		//If this directory doesn't exist, create it
-		checkDirectory(destination);
+		checkDirectory(local.destination);
 
-		uploadResult = fileUpload(destination, arguments.filename, "*", "makeunique");
+		var uploadResult = fileUpload(destination, arguments.filename, "*", "makeunique");
 
 		//Create an object to handle the file information
-		objFile = new models.file(directory = destination, originalfilename = uploadResult.clientFile, filename = uploadResult.serverFile);
+		var objFile = new models.file(directory = local.destination, originalfilename = local.uploadResult.clientFile, filename = local.uploadResult.serverFile);
 
-		return objFile;
+		return local.objFile;
 	}
 
 	private function checkDirectory(required string path){
@@ -111,15 +111,15 @@ component singleton {
 		//Match up the transactions
 		var matchResults = processArray(local.arrTransactions1, local.arrTransactions2);
 
-		results.objFile1.setTransactions(arrayLen(local.arrTransactions1));
-		results.objFile1.setMatches(arrayLen(local.arrTransactions1) - arrayLen(local.matchResults.arrUnmatchedInFirst));
-		results.objFile1.appendUnmatched(local.matchResults.arrUnmatchedInFirst);
+		local.results.objFile1.setTransactions(arrayLen(local.arrTransactions1));
+		local.results.objFile1.setMatches(arrayLen(local.arrTransactions1) - arrayLen(local.matchResults.arrUnmatchedInFirst));
+		local.results.objFile1.appendUnmatched(local.matchResults.arrUnmatchedInFirst);
 
-		results.objFile2.setTransactions(arrayLen(local.arrTransactions2));
-		results.objFile2.setMatches(arrayLen(local.arrTransactions2) - arrayLen(local.matchResults.arrUnmatchedInSecond));
-		results.objFile2.appendUnmatched(local.matchResults.arrUnmatchedInSecond);
+		local.results.objFile2.setTransactions(arrayLen(local.arrTransactions2));
+		local.results.objFile2.setMatches(arrayLen(local.arrTransactions2) - arrayLen(local.matchResults.arrUnmatchedInSecond));
+		local.results.objFile2.appendUnmatched(local.matchResults.arrUnmatchedInSecond);
 		
-		return results;
+		return local.results;
 	}
 
 	private function processArray(required array transactions1, required array transactions2){
@@ -131,22 +131,22 @@ component singleton {
 		};
 
 		//For each record in the first set of transactions, loop through the second set, deleting the first perfect match found. If no perfect match is found, create a transaction instance and add it to the unmatched array
-		for (transaction1 in arguments.transactions1){
+		for (var transaction1 in arguments.transactions1){
 
-			if(not arrayDelete(arguments.transactions2, transaction1)) {
+			if(not arrayDelete(arguments.transactions2, local.transaction1)) {
 				
-				objTransaction = transactionToObject(transaction1);
+				var objTransaction = transactionToObject(local.transaction1);
 
-				arrayAppend(stuUnmatched.arrUnmatchedInFirst, objTransaction);
+				arrayAppend(stuUnmatched.arrUnmatchedInFirst, local.objTransaction);
 			}
 		}
 
 		//Unmatched records from the second set will be what is left in the second array after perfect matches are deleted
-		for (transaction2 in arguments.transactions2){
+		for (var transaction2 in arguments.transactions2){
 
-			objTransaction = transactionToObject(transaction2);
+			local.objTransaction = transactionToObject(local.transaction2);
 
-			arrayAppend(stuUnmatched.arrUnmatchedInSecond, objTransaction);
+			arrayAppend(stuUnmatched.arrUnmatchedInSecond, local.objTransaction);
 		}
 
 		return local.stuUnmatched;

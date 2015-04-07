@@ -21,7 +21,7 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 				setup();
 			});
 
-			it( "+compare renders", function(){
+			it( "+main renders", function(){
 				var event = execute( event="main.index", renderResults=true );
 				expect(	event.getValue( name="welcomemessage", private=true ) ).toBe( "Compare Transaction Files" );
 			});
